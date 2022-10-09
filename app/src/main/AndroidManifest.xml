@@ -16,12 +16,27 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <!--      login page to start but for testing, comment these contents temporarily      -->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+        <!--  declare activities    -->
+        <activity android:name=".HomeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SettingActivity"/>
+        <activity android:name=".EditUserInfoActivity"/>
+        <activity android:name=".UserAgreementActivity"/>
+        <activity android:name=".UserPrivacyActivity"/>
     </application>
 
 </manifest>
