@@ -9,9 +9,19 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="101dp"
-        android:text="agreement"
+        android:layout_marginTop="72dp"
+        android:text="This application attaches great importance to the user privacy policy and strictly complies with relevant laws and regulations. Please read the Privacy Policy carefully before continuing to use it. If you continue to use our services, you have fully read and understood all the contents of our agreement. This app respects and protects the personal privacy of all users of the service. In order to provide you with more accurate and high-quality services, this app will use and disclose your personal information in accordance with the provisions of this privacy policy. Unless otherwise specified in this privacy policy, this app will not disclose such information to the public or provide it to a third party without your prior permission. This application will update this privacy policy from time to time. When you agree to this application service use agreement, you will be deemed to have agreed to all the contents of this privacy policy.1. Scope of application  (a) The personal registration information you provided according to the requirements of the app when you registered the app account of this app;  (b) When you use the application network service or visit the website of the application platform, the application automatically receives and records the information on your browser and computer, including but not limited to your IP address, browser type, language used, access date and time, software and hardware feature information, and the website records you need;  (c) This application obtains user personal data from business partners through legal channels.  (d) This app prohibits users from publishing bad information, such as naked, pornographic and profane content. We will review the published content. Once bad information is found, all permissions of the user will be disabled and the user will be blocked."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="16dp"
+        android:text="User Agreement"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
