@@ -16,6 +16,8 @@ public class SettingActivity extends AppCompatActivity {
     private Button editBtn;
     private Button agreementBtn;
     private Button privacyBtn;
+    private Button settingHomeBtn;
+    private Button logoutBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,6 +27,8 @@ public class SettingActivity extends AppCompatActivity {
         editBtn = this.findViewById(R.id.editBtn);
         agreementBtn = this.findViewById(R.id.agreementBtn);
         privacyBtn = this.findViewById(R.id.privacyBtn);
+        settingHomeBtn = this.findViewById(R.id.settingHomeBtn);
+        logoutBtn = this.findViewById(R.id.logoutBtn);
 
         // set listener
         editBtn.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +53,20 @@ public class SettingActivity extends AppCompatActivity {
                 //jump to the privacy page
                 Intent intent = new Intent(SettingActivity.this, UserPrivacyActivity.class);
                 startActivity(intent);
+            }
+        });
+        settingHomeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //jump to the home page
+                Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO jump to the login page
             }
         });
     }
