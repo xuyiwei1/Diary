@@ -7,16 +7,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import comp5216.sydney.edu.au.diarypro.adapter.DiaryItemListViewAdapter;
+import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
 
 public class HomeActivity extends AppCompatActivity {
 
     private Button settingBtn;
+    private ListView diaryItemListView;
+    private List<DiaryItem> diaryItems;
+    private DiaryItemListViewAdapter diaryItemListViewAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +33,22 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         //init the components
         settingBtn = findViewById(R.id.settingBtn);
+        diaryItemListView = this.findViewById(R.id.diaryListView);
+
+        //TODO query the database to get the diary items
+        diaryItems = new ArrayList<>();
+        diaryItems.add(new DiaryItem(1,"work","Aug 23"));
+        diaryItems.add(new DiaryItem(1,"work","Aug 23"));
+        diaryItems.add(new DiaryItem(1,"work","Aug 23"));
+
+        //create the listview adapter
+        diaryItemListViewAdapter = new DiaryItemListViewAdapter(diaryItems,this);
+
+        //connect the listview with adapter
+        diaryItemListView.setAdapter(diaryItemListViewAdapter);
+
+        //TODO invoke the long click and click action on list view
+        //setupListViewListener();
 
         //set the setting button click listener
         settingBtn.setOnClickListener(new View.OnClickListener() {

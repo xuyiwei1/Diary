@@ -20,6 +20,7 @@
         app:layout_constraintGuide_percent="0.85" />
 
     <ListView
+        android:id="@+id/diaryListView"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
