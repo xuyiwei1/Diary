@@ -18,6 +18,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import comp5216.sydney.edu.au.diarypro.adapter.DiaryItemListViewAdapter;
+import comp5216.sydney.edu.au.diarypro.dao.DiaryItemDao;
+import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
 
 public class HomeActivity extends AppCompatActivity {
@@ -26,6 +28,9 @@ public class HomeActivity extends AppCompatActivity {
     private ListView diaryItemListView;
     private List<DiaryItem> diaryItems;
     private DiaryItemListViewAdapter diaryItemListViewAdapter;
+    // the database
+    private AppDatabase appDatabase;
+    private DiaryItemDao diaryItemDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +41,14 @@ public class HomeActivity extends AppCompatActivity {
         diaryItemListView = this.findViewById(R.id.diaryListView);
 
         //TODO query the database to get the diary items
-        diaryItems = new ArrayList<>();
+        appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
+        diaryItemDao = appDatabase.diaryItemDao();
+       // diaryItemDao.insertItem(new DiaryItem("work","Aug 24"));
+        diaryItems = diaryItemDao.getAll();
+       /* diaryItems = new ArrayList<>();
         diaryItems.add(new DiaryItem(1,"work","Aug 23"));
         diaryItems.add(new DiaryItem(1,"work","Aug 23"));
-        diaryItems.add(new DiaryItem(1,"work","Aug 23"));
+        diaryItems.add(new DiaryItem(1,"work","Aug 23"));*/
 
         //create the listview adapter
         diaryItemListViewAdapter = new DiaryItemListViewAdapter(diaryItems,this);
