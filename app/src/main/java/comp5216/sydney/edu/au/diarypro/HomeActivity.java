@@ -30,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
     private Button settingBtn;
+    private Button addNewItemBtn;
     private ListView diaryItemListView;
     private List<DiaryItem> diaryItems;
     private DiaryItemListViewAdapter diaryItemListViewAdapter;
@@ -44,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         //init the components
         settingBtn = findViewById(R.id.settingBtn);
         diaryItemListView = this.findViewById(R.id.diaryListView);
+        addNewItemBtn = this.findViewById(R.id.addNewItemBtn);
 
         //TODO query the database to get the diary items
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
@@ -102,6 +104,15 @@ public class HomeActivity extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
         }
+    }
+
+    /**
+     * click the plus icon and jump to add new diary item layout
+     * @param view
+     */
+    public void clickAddNewDiaryItem(View view) {
+        Intent intent = new Intent(HomeActivity.this,AddItemsActivity.class);
+        startActivity(intent);
     }
 
     /**

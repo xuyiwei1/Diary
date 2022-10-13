@@ -37,6 +37,7 @@
         <activity android:name=".EditUserInfoActivity"/>
         <activity android:name=".UserAgreementActivity"/>
         <activity android:name=".UserPrivacyActivity"/>
+        <activity android:name=".AddItemsActivity"/>
     </application>
 
 </manifest>
