@@ -2,4 +2,6 @@
     <string name="app_name">DiaryPro</string>
     <string name="dialog_cancel_title">Are you sure to cancel this edit?</string>
     <string name="dialog_cancel_edit_add_item_msg">UnSaved edit will be discarded if you click Yes</string>
+    <string name="dialog_delete_title">Delete the diary item</string>
+    <string name="dialog_delete_shop_item_msg">Are you sure to delete this item</string>
 </resources>
