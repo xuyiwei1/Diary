@@ -3,6 +3,7 @@ package comp5216.sydney.edu.au.diarypro.entity;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -25,11 +26,13 @@ public class DiaryItem {
     public DiaryItem() {
     }
 
+    @Ignore
     public DiaryItem(String name, String date) {
         this.name = name;
         this.date = date;
     }
 
+    @Ignore
     public DiaryItem(int id, String name, String date) {
         this.id = id;
         this.name = name;

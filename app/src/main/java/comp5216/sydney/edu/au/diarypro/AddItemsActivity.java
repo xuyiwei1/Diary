@@ -20,6 +20,12 @@ public class AddItemsActivity extends AppCompatActivity {
      */
     public void jumpToWorkEditPage(View view) {
         Intent intent = new Intent(AddItemsActivity.this,WorkEditActivity.class);
+        Intent intentFromPrevious = getIntent();
+        String dateDiary = intentFromPrevious.getStringExtra("dateDiary");
+        intent.putExtra("dateDiary",dateDiary);
+//        intent.putExtra("content",intentFromPrevious.getStringExtra("content"));
+//        intent.putExtra("imagePath",intentFromPrevious.getStringExtra("imagePath"));
+//        intent.putExtra("position",intentFromPrevious.getStringExtra("position"));
         startActivity(intent);
     }
 

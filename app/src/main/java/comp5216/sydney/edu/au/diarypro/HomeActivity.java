@@ -12,7 +12,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -23,8 +26,11 @@ import java.util.List;
 
 import comp5216.sydney.edu.au.diarypro.adapter.DiaryItemListViewAdapter;
 import comp5216.sydney.edu.au.diarypro.dao.DiaryItemDao;
+import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
+import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
+import comp5216.sydney.edu.au.diarypro.util.DateConvertUtil;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -32,11 +38,13 @@ public class HomeActivity extends AppCompatActivity {
     private Button settingBtn;
     private Button addNewItemBtn;
     private ListView diaryItemListView;
-    private List<DiaryItem> diaryItems;
+    private List<DiaryItem> diaryItems = new ArrayList<>();
+    private List<WorkStudyEventItem> workStudyEventItems;
     private DiaryItemListViewAdapter diaryItemListViewAdapter;
+    private static String dateDiary;
     // the database
     private AppDatabase appDatabase;
-    private DiaryItemDao diaryItemDao;
+    private WorkStudyEventDao workStudyEventDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,11 +55,17 @@ public class HomeActivity extends AppCompatActivity {
         diaryItemListView = this.findViewById(R.id.diaryListView);
         addNewItemBtn = this.findViewById(R.id.addNewItemBtn);
 
+        //init the date of diary is now by default
+        dateDiary = DateConvertUtil.getCurrentDate();
+
         //TODO query the database to get the diary items
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
-        diaryItemDao = appDatabase.diaryItemDao();
+        workStudyEventDao = appDatabase.workStudyEventItemDao();
         //diaryItemDao.insertItem(new DiaryItem("study","Otc 24"));
-        diaryItems = diaryItemDao.getAll();
+        workStudyEventItems = workStudyEventDao.getAll();
+        for (WorkStudyEventItem workStudyEventItem : workStudyEventItems) {
+            diaryItems.add(new DiaryItem(workStudyEventItem.getId(),workStudyEventItem.getType(),workStudyEventItem.getDateDiary()));
+        }
        /* diaryItems = new ArrayList<>();
         diaryItems.add(new DiaryItem(1,"work","Aug 23"));
         diaryItems.add(new DiaryItem(1,"work","Aug 23"));
@@ -103,6 +117,9 @@ public class HomeActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            Log.d(TAG, "onDateSet: year"+year +"month: "+month+"day: "+day);
+            // convert the int to the date
+            dateDiary = DateConvertUtil.convertFromInt(month, day);
         }
     }
 
@@ -112,6 +129,8 @@ public class HomeActivity extends AppCompatActivity {
      */
     public void clickAddNewDiaryItem(View view) {
         Intent intent = new Intent(HomeActivity.this,AddItemsActivity.class);
+        // pass the date to the diary edit page to store to the database
+        intent.putExtra("dateDiary",dateDiary);
         startActivity(intent);
     }
 
@@ -131,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //remove the data from local database
-                                diaryItemDao.deleteById(diaryItems.get(position).getId());
+                                workStudyEventDao.deleteById(diaryItems.get(position).getId());
                                 //when click the delete button delete the item in the listview
                                 diaryItems.remove(position);
                                 diaryItemListViewAdapter.notifyDataSetChanged();
@@ -150,37 +169,44 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         //TODO handle the single click event
-        /*this.diaryItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        this.diaryItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DiaryItem shopItem = (DiaryItem) diaryItemListViewAdapter.getItem(position);
-                Log.d(TAG, "onItemClick: position" + position + " getItem: " + shopItem);
-                // switch to the edit add new item layout
-                Intent intent = new Intent(MainActivity.this, EditAddItemActivity.class);
+                DiaryItem diaryItem = (DiaryItem) diaryItemListViewAdapter.getItem(position);
+                //query the work study or event item based on diaryItem's id
+                WorkStudyEventItem workStudyEventItem = workStudyEventDao.getItemById(diaryItem.getId());
+                Log.d(TAG, "onItemClick: position" + position + " getItem: " + workStudyEventItem);
+                //TODO check the type of the diary item switch to the work study or event layout
+                Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
                 if (intent != null) {
-                    intent.putExtra("itemName", shopItem.getName());
-                    intent.putExtra("itemNumber", shopItem.getNumber());
-                    intent.putExtra("isChecked", shopItem.isChecked());
-                    intent.putExtra("position", position);
+                    intent.putExtra("content", workStudyEventItem.getContent());
+                    intent.putExtra("imagePath", workStudyEventItem.getImagePath());
+                    intent.putExtra("id",workStudyEventItem.getId());
+                    intent.putExtra("fromHomePage", 666);
+                    intent.putExtra("dateDiary",dateDiary);
 
                     //get the original id of the item to update in later, because of the delete action
-                    ShopItemDao shopItemDao = new ShopItemDao(MainActivity.this);
-                    List<ShopItem> shopItemList = shopItemDao.queryAll();
-                    ShopItem originItem = null;
-                    for (ShopItem item : shopItemList) {
+                    /*List<WorkStudyEventItem> shopItemList = workStudyEventDao.getAll();
+                    WorkStudyEventItem originItem = null;
+                    for (WorkStudyEventItem item : shopItemList) {
                         if (item.getName().equals(shopItem.getName())) {
                             originItem = item;
                         }
                     }
-                    intent.putExtra("id", originItem.getId());
+                    intent.putExtra("id", originItem.getId());*/
 
                     mLauncher.launch(intent);
-                    itemAdapter.notifyDataSetChanged();
+                    diaryItemListViewAdapter.notifyDataSetChanged();
                 }
             }
-        });*/
+        });
     }
 
+    //get the data and show the data that we get in database
+    ActivityResultLauncher<Intent> mLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
 
+                    });
 
 }
