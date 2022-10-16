@@ -64,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         //diaryItemDao.insertItem(new DiaryItem("study","Otc 24"));
         workStudyEventItems = workStudyEventDao.getAll();
         for (WorkStudyEventItem workStudyEventItem : workStudyEventItems) {
-            diaryItems.add(new DiaryItem(workStudyEventItem.getId(),workStudyEventItem.getType(),workStudyEventItem.getDateDiary()));
+            diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary()));
         }
        /* diaryItems = new ArrayList<>();
         diaryItems.add(new DiaryItem(1,"work","Aug 23"));
@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         diaryItems.add(new DiaryItem(1,"work","Aug 23"));*/
 
         //create the listview adapter
-        diaryItemListViewAdapter = new DiaryItemListViewAdapter(diaryItems,this);
+        diaryItemListViewAdapter = new DiaryItemListViewAdapter(diaryItems, this);
 
         //connect the listview with adapter
         diaryItemListView.setAdapter(diaryItemListViewAdapter);
@@ -85,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // jump to the setting page
-                Intent intent = new Intent(HomeActivity.this,SettingActivity.class);
+                Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
                 startActivity(intent);
             }
         });
@@ -93,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * when user click the button,show date picker
+     *
      * @param view
      */
     public void showDatePicker(View view) {
@@ -117,7 +118,7 @@ public class HomeActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            Log.d(TAG, "onDateSet: year"+year +"month: "+month+"day: "+day);
+            Log.d(TAG, "onDateSet: year" + year + "month: " + month + "day: " + day);
             // convert the int to the date
             dateDiary = DateConvertUtil.convertFromInt(month, day);
         }
@@ -125,12 +126,13 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * click the plus icon and jump to add new diary item layout
+     *
      * @param view
      */
     public void clickAddNewDiaryItem(View view) {
-        Intent intent = new Intent(HomeActivity.this,AddItemsActivity.class);
+        Intent intent = new Intent(HomeActivity.this, AddItemsActivity.class);
         // pass the date to the diary edit page to store to the database
-        intent.putExtra("dateDiary",dateDiary);
+        intent.putExtra("dateDiary", dateDiary);
         startActivity(intent);
     }
 
@@ -178,12 +180,20 @@ public class HomeActivity extends AppCompatActivity {
                 Log.d(TAG, "onItemClick: position" + position + " getItem: " + workStudyEventItem);
                 //TODO check the type of the diary item switch to the work study or event layout
                 Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
+                String type = workStudyEventItem.getType();
+                if (type.equals("work")) {
+                    intent = new Intent(HomeActivity.this, WorkEditActivity.class);
+                }else if(type.equals("study")) {
+                    intent = new Intent(HomeActivity.this, StudyEditActivity.class);
+                }else if(type.equals("event")) {
+                    intent = new Intent(HomeActivity.this, EventEditActivity.class);
+                }
                 if (intent != null) {
                     intent.putExtra("content", workStudyEventItem.getContent());
                     intent.putExtra("imagePath", workStudyEventItem.getImagePath());
-                    intent.putExtra("id",workStudyEventItem.getId());
+                    intent.putExtra("id", workStudyEventItem.getId());
                     intent.putExtra("fromHomePage", 666);
-                    intent.putExtra("dateDiary",dateDiary);
+                    intent.putExtra("dateDiary", dateDiary);
 
                     //get the original id of the item to update in later, because of the delete action
                     /*List<WorkStudyEventItem> shopItemList = workStudyEventDao.getAll();

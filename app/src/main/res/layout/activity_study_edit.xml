@@ -85,7 +85,19 @@
         android:layout_marginEnd="72dp"
         android:layout_marginBottom="52dp"
         android:text="save"
+        android:onClick="clickStudySave"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/studyImageView"
+        android:layout_width="87dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="480dp"
+        android:onClick="uploadImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
