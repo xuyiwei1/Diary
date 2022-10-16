@@ -38,6 +38,9 @@
         <activity android:name=".UserAgreementActivity"/>
         <activity android:name=".UserPrivacyActivity"/>
         <activity android:name=".AddItemsActivity"/>
+        <activity android:name=".WorkEditActivity"/>
+        <activity android:name=".StudyEditActivity"/>
+        <activity android:name=".EventEditActivity"/>
     </application>
 
 </manifest>
