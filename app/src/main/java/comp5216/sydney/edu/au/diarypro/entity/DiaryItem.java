@@ -23,20 +23,27 @@ public class DiaryItem {
     @ColumnInfo(name="date")
     private String date;
 
+    // the image show in the font of a diary item which is the same path(in drawable folder) as 'imageInHomePage' in WorkStudyEventItem class
+    @ColumnInfo(name = "image")
+    private int image;
+
+
     public DiaryItem() {
     }
 
     @Ignore
-    public DiaryItem(String name, String date) {
+    public DiaryItem(String name, String date,int image) {
         this.name = name;
         this.date = date;
+        this.image = image;
     }
 
     @Ignore
-    public DiaryItem(int id, String name, String date) {
+    public DiaryItem(int id, String name, String date,int image) {
         this.id = id;
         this.name = name;
         this.date = date;
+        this.image = image;
     }
 
     public int getId() {
@@ -61,5 +68,13 @@ public class DiaryItem {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 }

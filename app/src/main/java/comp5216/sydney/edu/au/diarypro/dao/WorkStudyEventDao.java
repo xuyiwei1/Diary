@@ -30,4 +30,7 @@ public interface WorkStudyEventDao {
     @Query("delete from workStudyEventItem where id = :id")
     void deleteById(int id);
 
+    @Query("select * from workStudyEventItem where dateDiary = :date")
+    List<WorkStudyEventItem> getItemByDate(String date);
+
 }

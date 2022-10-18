@@ -7,22 +7,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/diaryItemImage"
+            android:scaleType="fitXY"
+            android:src="@drawable/study"
+            android:layout_width="30sp"
+            android:layout_height="30sp"/>
+
         <TextView
             android:id="@+id/textview_diary_item_name"
-            android:text="name"
-            android:textSize="20sp"
-            android:paddingRight="250dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="name"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textview_dairy_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
+            android:paddingLeft="150dp"
             android:text="Date"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
     </LinearLayout>
 
 </LinearLayout>

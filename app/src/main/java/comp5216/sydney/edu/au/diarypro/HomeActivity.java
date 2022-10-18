@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -38,13 +39,13 @@ public class HomeActivity extends AppCompatActivity {
     private Button settingBtn;
     private Button addNewItemBtn;
     private ListView diaryItemListView;
-    private List<DiaryItem> diaryItems = new ArrayList<>();
+    private static List<DiaryItem> diaryItems = new ArrayList<>();
     private List<WorkStudyEventItem> workStudyEventItems;
-    private DiaryItemListViewAdapter diaryItemListViewAdapter;
+    private static DiaryItemListViewAdapter diaryItemListViewAdapter;
     private static String dateDiary;
     // the database
     private AppDatabase appDatabase;
-    private WorkStudyEventDao workStudyEventDao;
+    private static WorkStudyEventDao workStudyEventDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,15 +62,12 @@ public class HomeActivity extends AppCompatActivity {
         // query the database to get the diary items
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
         workStudyEventDao = appDatabase.workStudyEventItemDao();
-        //diaryItemDao.insertItem(new DiaryItem("study","Otc 24"));
+        // remember to clear the diaryItems because it was declare as static, all the diaryItems field share the same cache
+        diaryItems.clear();
         workStudyEventItems = workStudyEventDao.getAll();
         for (WorkStudyEventItem workStudyEventItem : workStudyEventItems) {
-            diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary()));
+            diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
         }
-       /* diaryItems = new ArrayList<>();
-        diaryItems.add(new DiaryItem(1,"work","Aug 23"));
-        diaryItems.add(new DiaryItem(1,"work","Aug 23"));
-        diaryItems.add(new DiaryItem(1,"work","Aug 23"));*/
 
         //create the listview adapter
         diaryItemListViewAdapter = new DiaryItemListViewAdapter(diaryItems, this);
@@ -121,6 +119,29 @@ public class HomeActivity extends AppCompatActivity {
             Log.d(TAG, "onDateSet: year" + year + "month: " + month + "day: " + day);
             // convert the int to the date
             dateDiary = DateConvertUtil.convertFromInt(month, day);
+            // when user choose a date in home page, filter the diary item based on the date
+            List<WorkStudyEventItem> itemByDate = workStudyEventDao.getItemByDate(dateDiary);
+            //clear the item and fill the list view again
+            diaryItems.clear();
+            for (WorkStudyEventItem workStudyEventItem : itemByDate) {
+                diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
+            }
+            diaryItemListViewAdapter.notifyDataSetChanged();
+        }
+
+        /**
+         * when user click the cancel button, show all diary item
+         * @param dialog
+         */
+        @Override
+        public void onCancel(@NonNull DialogInterface dialog) {
+            super.onCancel(dialog);
+            List<WorkStudyEventItem> all = workStudyEventDao.getAll();
+            diaryItems.clear();
+            for (WorkStudyEventItem workStudyEventItem : all) {
+                diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
+            }
+            diaryItemListViewAdapter.notifyDataSetChanged();
         }
     }
 

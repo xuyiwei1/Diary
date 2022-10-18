@@ -1,11 +1,14 @@
 package comp5216.sydney.edu.au.diarypro;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.luck.picture.lib.basic.PictureSelector;
@@ -21,11 +25,13 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.engine.GlideEngine;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
+import comp5216.sydney.edu.au.diarypro.util.DateConvertUtil;
 
 public class WorkEditActivity extends AppCompatActivity {
 
@@ -34,6 +40,7 @@ public class WorkEditActivity extends AppCompatActivity {
     private AppDatabase appDatabase;
     private WorkStudyEventDao workStudyEventDao;
     private String path;
+    private static String dateDiary;
     // judge which page the data come from using to judge insert or update data
     private int stateCode;
 
@@ -146,7 +153,7 @@ public class WorkEditActivity extends AppCompatActivity {
      */
     public void clickWorkSave(View view) {
         Intent intentFromPrevious = getIntent();
-        String dateDiary = intentFromPrevious.getExtras().getString("dateDiary");
+        //String dateDiary = intentFromPrevious.getExtras().getString("dateDiary");
         Log.d(TAG, "clickWorkSave: dateDiary " + dateDiary);
         //check update or insert data
         if (stateCode == 666) {
@@ -154,13 +161,47 @@ public class WorkEditActivity extends AppCompatActivity {
             Intent intent = getIntent();
             int id = intent.getExtras().getInt("id");
             Glide.with(WorkEditActivity.this).load(path).into(workImageView);
-            workStudyEventDao.update(new WorkStudyEventItem(id,workEditText.getText().toString(), path, "work", dateDiary));
+            workStudyEventDao.update(new WorkStudyEventItem(id,workEditText.getText().toString(), path, "work", dateDiary,R.drawable.work));
         } else {
-            workStudyEventDao.insertItem(new WorkStudyEventItem(workEditText.getText().toString(), path, "work", dateDiary));
+            workStudyEventDao.insertItem(new WorkStudyEventItem(workEditText.getText().toString(), path, "work", dateDiary,R.drawable.work));
         }
         //back to the Home Page
         Toast.makeText(this, "save successfully", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(WorkEditActivity.this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * when user click the button,show date picker
+     *
+     * @param view
+     */
+    public void showDatePickerWork(View view) {
+        DatePickerFragmentWork datePickerFragment = new DatePickerFragmentWork();
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public static class DatePickerFragmentWork extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+            Log.d(TAG, "onDateSet: year" + year + "month: " + month + "day: " + day);
+            // convert the int to the date
+            dateDiary = DateConvertUtil.convertFromInt(month, day);
+
+        }
     }
 }

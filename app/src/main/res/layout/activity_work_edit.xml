@@ -94,9 +94,20 @@
         android:layout_width="89dp"
         android:layout_height="90dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="452dp"
+        android:layout_marginTop="428dp"
         android:onClick="uploadImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="256dp"
+        android:layout_marginTop="544dp"
+        android:onClick="showDatePickerWork"
+        android:text="Time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

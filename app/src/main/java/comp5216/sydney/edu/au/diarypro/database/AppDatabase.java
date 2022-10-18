@@ -15,7 +15,7 @@ import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 
 // declare the entities to the database
-@Database(entities = {DiaryItem.class, WorkStudyEventItem.class}, version = 3, exportSchema = false)
+@Database(entities = {DiaryItem.class, WorkStudyEventItem.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "diaryProDB";
     private static AppDatabase DBINSTANCE;
@@ -31,6 +31,7 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 // allow the main thread visit the database
                 DBINSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
+                        // lose all data use this function to update database
                         .fallbackToDestructiveMigration()
                         .allowMainThreadQueries().build();
             }
@@ -43,6 +44,9 @@ public abstract class AppDatabase extends RoomDatabase {
         DBINSTANCE = null;
     }
 
+    /**
+     * if you do not want to lose data when your update the structure or create new table, change this method to update database
+     */
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {

@@ -28,24 +28,30 @@ public class WorkStudyEventItem {
     @ColumnInfo(name = "dateDiary")
     private String dateDiary;
 
+    // the path(drawable folder) of image that show in the home page
+    @ColumnInfo(name = "imageInHomePage")
+    private int imageInHomePage;
+
     public WorkStudyEventItem() {
     }
 
     @Ignore
-    public WorkStudyEventItem(String content, String imagePath, String type, String dateDiary) {
+    public WorkStudyEventItem(String content, String imagePath, String type, String dateDiary,int imageInHomePage) {
         this.content = content;
         this.imagePath = imagePath;
         this.type = type;
         this.dateDiary = dateDiary;
+        this.imageInHomePage = imageInHomePage;
     }
 
     @Ignore
-    public WorkStudyEventItem(int id,String content, String imagePath, String type,String dateDiary) {
+    public WorkStudyEventItem(int id,String content, String imagePath, String type,String dateDiary,int imageInHomePage) {
         this.id = id;
         this.content = content;
         this.imagePath = imagePath;
         this.type = type;
         this.dateDiary = dateDiary;
+        this.imageInHomePage = imageInHomePage;
     }
 
     @Ignore
@@ -94,5 +100,13 @@ public class WorkStudyEventItem {
 
     public void setDateDiary(String dateDiary) {
         this.dateDiary = dateDiary;
+    }
+
+    public int getImageInHomePage() {
+        return imageInHomePage;
+    }
+
+    public void setImageInHomePage(int imageInHomePage) {
+        this.imageInHomePage = imageInHomePage;
     }
 }

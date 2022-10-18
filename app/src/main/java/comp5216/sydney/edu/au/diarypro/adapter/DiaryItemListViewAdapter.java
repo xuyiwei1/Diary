@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import comp5216.sydney.edu.au.diarypro.R;
 import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
 
 public class DiaryItemListViewAdapter extends BaseAdapter {
+
 
     private List<DiaryItem> diaryItemList;
     private Context context;
@@ -47,6 +49,7 @@ public class DiaryItemListViewAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.adapter_diary_item,parent,false);
             viewHolder.name = convertView.findViewById(R.id.textview_diary_item_name);
             viewHolder.date = convertView.findViewById(R.id.textview_dairy_date);
+            viewHolder.imageView = convertView.findViewById(R.id.diaryItemImage);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -55,12 +58,15 @@ public class DiaryItemListViewAdapter extends BaseAdapter {
         viewHolder.diaryItem = diaryItem;
         viewHolder.name.setText(diaryItem.getName());
         viewHolder.date.setText(diaryItem.getDate());
+        //TODO change the path
+        viewHolder.imageView.setImageResource(diaryItem.getImage());
         return convertView;
     }
 
     class ViewHolder {
         TextView name;
         TextView date;
+        ImageView imageView;
         DiaryItem diaryItem;
 
         public ViewHolder() {
