@@ -58,7 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         //init the date of diary is now by default
         dateDiary = DateConvertUtil.getCurrentDate();
 
-        //TODO query the database to get the diary items
+        // query the database to get the diary items
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
         workStudyEventDao = appDatabase.workStudyEventItemDao();
         //diaryItemDao.insertItem(new DiaryItem("study","Otc 24"));
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         //connect the listview with adapter
         diaryItemListView.setAdapter(diaryItemListViewAdapter);
 
-        //TODO invoke the long click and click action on list view
+        // invoke the long click and click action on list view
         setupListViewListener();
 
         //set the setting button click listener
@@ -170,7 +170,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        //TODO handle the single click event
+        // handle the single click event
         this.diaryItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
