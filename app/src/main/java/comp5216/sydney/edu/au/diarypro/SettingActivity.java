@@ -71,4 +71,13 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * click the add icon, jump to the add items page
+     * @param view
+     */
+    public void jumpToTheHomePage(View view) {
+        Intent intent = new Intent(SettingActivity.this,AddItemsActivity.class);
+        startActivity(intent);
+    }
 }
