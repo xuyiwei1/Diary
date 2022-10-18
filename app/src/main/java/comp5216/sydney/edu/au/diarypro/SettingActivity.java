@@ -66,7 +66,8 @@ public class SettingActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO jump to the login page
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }

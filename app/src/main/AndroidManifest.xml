@@ -49,6 +49,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingActivity"/>
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".EditUserInfoActivity"/>
         <activity android:name=".UserAgreementActivity"/>
         <activity android:name=".UserPrivacyActivity"/>
