@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +22,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import comp5216.sydney.edu.au.diarypro.adapter.DiaryItemListViewAdapter;
 import comp5216.sydney.edu.au.diarypro.dao.DiaryItemDao;
@@ -46,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
     // the database
     private AppDatabase appDatabase;
     private static WorkStudyEventDao workStudyEventDao;
+    // cloud service
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -239,5 +252,42 @@ public class HomeActivity extends AppCompatActivity {
                     result -> {
 
                     });
+
+    /**
+     * upload content of diary item to the cloud
+     * @param view
+     */
+    public void uploadToCloud(View view) {
+        // Create a storage reference from our app
+        List<WorkStudyEventItem> all = workStudyEventDao.getAll();
+        for (WorkStudyEventItem workStudyEventItem : all) {
+            StorageReference storageRef = storage.getReference().child(workStudyEventItem.getType());
+            //upload content of diary
+            storageRef.child(workStudyEventItem.getType()+ UUID.randomUUID().toString().substring(0,5) +".txt").putBytes(workStudyEventItem.getContent().getBytes());
+            //upload image of diary
+            String imagePath = workStudyEventItem.getImagePath();
+            File file = new File(imagePath);
+            //if user do not attach photo in their dairy do not upload photo
+            Uri uri = null;
+            if(file == null) {
+                continue;
+            }else {
+                 uri = Uri.fromFile(file);
+            }
+            UploadTask uploadTask = storageRef.child(workStudyEventItem.getType()).putFile(uri);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(TAG, "onSuccess: upload a photo");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: upload a photo");
+                }
+            });
+        }
+        Toast.makeText(this, "user driven synchronization success", Toast.LENGTH_SHORT).show();
+    }
 
 }

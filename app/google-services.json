@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "105195085524",
+    "project_id": "lexical-raceway-360909",
+    "storage_bucket": "lexical-raceway-360909.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105195085524:android:f1f5db75c26bb9028f6541",
+        "android_client_info": {
+          "package_name": "comp5216.sydney.edu.au.camerademo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105195085524-3lcp79m5tl65seeu0v59bca2o2daselm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUvUdxLeIk2CCibLjxyCrzGkJTav0CkgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105195085524-3lcp79m5tl65seeu0v59bca2o2daselm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105195085524:android:6d32b30314899cc48f6541",
+        "android_client_info": {
+          "package_name": "comp5216.sydney.edu.au.diarypro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105195085524-3lcp79m5tl65seeu0v59bca2o2daselm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUvUdxLeIk2CCibLjxyCrzGkJTav0CkgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105195085524-3lcp79m5tl65seeu0v59bca2o2daselm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
