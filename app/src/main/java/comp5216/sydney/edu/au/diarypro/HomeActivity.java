@@ -258,6 +258,8 @@ public class HomeActivity extends AppCompatActivity {
      * @param view
      */
     public void uploadToCloud(View view) {
+        //TODO if you want to test sync function, please change the rules in cloud service otherwise it cannot work.
+
         // Create a storage reference from our app
         List<WorkStudyEventItem> all = workStudyEventDao.getAll();
         for (WorkStudyEventItem workStudyEventItem : all) {
