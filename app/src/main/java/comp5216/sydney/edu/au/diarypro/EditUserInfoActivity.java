@@ -2,6 +2,7 @@ package comp5216.sydney.edu.au.diarypro;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,13 +22,27 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 
 import java.util.ArrayList;
 
+import comp5216.sydney.edu.au.diarypro.dao.UserItemDao;
+import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.engine.GlideEngine;
+import comp5216.sydney.edu.au.diarypro.entity.UserItem;
+import comp5216.sydney.edu.au.diarypro.util.UserInfo;
 
 public class EditUserInfoActivity extends AppCompatActivity {
 
     private Button cancelBtn;
     private Button saveBtn;
-    private EditText imageEdit;
+    private Button changeImageBtn;
+    private Button changePasswordBtn;
+    private EditText nicknameInput;
+    private ImageView infoImage;
+    private int id;
+    String imagePath;
+
+    UserInfo userInfo;
+
+    private AppDatabase appDatabase;
+    private UserItemDao UserItemDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +51,25 @@ public class EditUserInfoActivity extends AppCompatActivity {
         //init the components
         cancelBtn = this.findViewById(R.id.cancelBtn);
         saveBtn = this.findViewById(R.id.saveBtn);
-        imageEdit = this.findViewById(R.id.userNickNmaeEdit);
+        nicknameInput = this.findViewById(R.id.nicknameInput);
+        changeImageBtn = this.findViewById(R.id.changeBtn);
+        infoImage = this.findViewById(R.id.infoImage);
+        changePasswordBtn = this.findViewById(R.id.changePasswordBtn);
+
+
+        userInfo = (UserInfo)getApplicationContext();
+        id = userInfo.getId();
+        imagePath = userInfo.getUserItem().getImagePath();
+
+        nicknameInput.setText(userInfo.getUserItem().getNickname());
+
+        appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
+        UserItemDao = appDatabase.userItemDao();
+
+        if (imagePath != null && imagePath.length() > 0) {
+            Glide.with(EditUserInfoActivity.this).load(imagePath).into(infoImage);
+        }
+
 
         //set listener
         cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +83,6 @@ public class EditUserInfoActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // discard the data and jump to the main page
-                                userNickNameEdit.setText("");
                                 finish();
                             }
                         })
@@ -64,25 +96,43 @@ public class EditUserInfoActivity extends AppCompatActivity {
             }
         });
 
-        imageEdit.setOnClickListener(new View.OnClickListener() {
+        changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO save the user info to the database
+                Intent intent= new Intent(EditUserInfoActivity.this,ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
 
-                //jump to the main page
-                finish();
+        changeImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectPhotoAndAll(infoImage);
             }
         });
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO save the user info to the database
+                UserItemDao.changeNickname(id,nicknameInput.getText().toString());
 
-                //jump to the main page
+//                UserItem useritem = UserItemDao.getById(id);
+//                userInfo.setUserItem(useritem);
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UserItem useritem = UserItemDao.getById(id);
+        userInfo.setUserItem(useritem);
+        nicknameInput.setText(userInfo.getUserItem().getNickname());
+        imagePath = useritem.getImagePath();
+        if (imagePath != null && imagePath.length() > 0) {
+            Glide.with(EditUserInfoActivity.this).load(imagePath).into(infoImage);
+        }
     }
 
     private void selectPhotoAndAll(ImageView imageView) {
@@ -94,10 +144,9 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     public void onResult(ArrayList<LocalMedia> result) {
                         Log.e("leo", "图片路径" + result.get(0).getPath());
                         Log.e("leo", "绝对路径" + result.get(0).getRealPath());
-                        Glide.with(EditUserInfoActivity.this).load(result.get(0).getPath()).into(imageView);
-                        //将bitmap图片传入后端
-                        //imageUpLoad(result.get(0).getRealPath());
-//                        submitPicture(result.get(0).getRealPath());
+                        Glide.with(EditUserInfoActivity.this).load(result.get(0).getRealPath()).into(imageView);
+
+                        UserItemDao.changeImagePath(id,result.get(0).getRealPath());
                     }
 
                     @Override

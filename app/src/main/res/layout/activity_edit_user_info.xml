@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageInfo"
+        android:id="@+id/infoImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
@@ -16,25 +16,48 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
+
+
     <EditText
-        android:id="@+id/nicknameEdit"
-        android:layout_width="800px"
+        android:id="@+id/nicknameInput"
+        android:layout_width="363dp"
         android:layout_height="150px"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
         android:hint="User Nickname"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/text" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="363dp"
+        android:layout_height="150px"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="30dp"
+        android:text="Change nickname here"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoImage" />
 
     <Button
-        android:id="@+id/imageEditBtn"
+        android:id="@+id/changePasswordBtn"
+        android:layout_width="363dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:text="change password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameInput" />
+
+    <Button
+        android:id="@+id/changeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="58dp"
         android:layout_marginBottom="20dp"
         android:text="change"
-        app:layout_constraintBottom_toBottomOf="@+id/imageInfo"
-        app:layout_constraintStart_toEndOf="@+id/imageInfo" />
+        app:layout_constraintBottom_toBottomOf="@+id/infoImage"
+        app:layout_constraintStart_toEndOf="@+id/infoImage" />
 
     <Button
         android:id="@+id/saveBtn"

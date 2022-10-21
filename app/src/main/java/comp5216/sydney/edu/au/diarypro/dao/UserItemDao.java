@@ -36,4 +36,16 @@ public interface UserItemDao {
 
     @Query("select password from UserItem where username = :username")
     String getPassword(String username);
+
+    @Query("select password from UserItem where id = :id")
+    String getPasswordById(int id);
+
+    @Query("update  UserItem set nickname = :nickname where id = :id")
+    void changeNickname(int id,String nickname);
+
+    @Query("update  UserItem set imagePath = :imagePath where id = :id")
+    void changeImagePath(int id,String imagePath);
+
+    @Query("update  UserItem set password = :password where id = :id")
+    void changePassword(int id,String password);
 }
