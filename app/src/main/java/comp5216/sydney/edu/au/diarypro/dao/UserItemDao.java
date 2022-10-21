@@ -13,8 +13,11 @@ import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 @Dao
 public interface UserItemDao {
 
-    @Query("select * from userItem")
-    List<UserItem> getAll();
+    @Query("select * from userItem where id = :id")
+    UserItem getById(int id);
+
+    @Query("select id from userItem where username = :username")
+    int getId(String username);
 
     @Insert
     void insertItem(UserItem UserItem);

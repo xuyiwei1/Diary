@@ -23,6 +23,12 @@ public class UserItem {
     @ColumnInfo(name="password")
     private String password;
 
+    @ColumnInfo(name="nickname")
+    private String nickname;
+
+    @ColumnInfo(name="imagePath")
+    private String imagePath;
+
 
     public UserItem() {
     }
@@ -31,6 +37,8 @@ public class UserItem {
     public UserItem(String username, String password) {
         this.username = username;
         this.password = password;
+        this.nickname = "default";
+        this.imagePath = null;
     }
 
     public int getId() {
@@ -56,4 +64,12 @@ public class UserItem {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getNickname() {return nickname;}
+
+    public void setNickname(String nickname) {this.nickname = nickname;}
+
+    public String getImagePath() {return imagePath;}
+
+    public void setImagePath(String imagePath) {this.imagePath = imagePath;}
 }

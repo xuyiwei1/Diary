@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import comp5216.sydney.edu.au.diarypro.util.UserInfo;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -18,6 +21,10 @@ public class SettingActivity extends AppCompatActivity {
     private Button privacyBtn;
     private Button settingHomeBtn;
     private Button logoutBtn;
+
+    private TextView nicknameLabel;
+
+    UserInfo userInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +36,11 @@ public class SettingActivity extends AppCompatActivity {
         privacyBtn = this.findViewById(R.id.privacyBtn);
         settingHomeBtn = this.findViewById(R.id.settingHomeBtn);
         logoutBtn = this.findViewById(R.id.logoutBtn);
+        nicknameLabel = this.findViewById(R.id.nickname);
+
+        userInfo = (UserInfo)getApplicationContext();
+
+        nicknameLabel.setText(userInfo.getUserItem().getNickname());
 
         // set listener
         editBtn.setOnClickListener(new View.OnClickListener() {

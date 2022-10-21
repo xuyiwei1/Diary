@@ -1,7 +1,10 @@
 package comp5216.sydney.edu.au.diarypro;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,6 +44,30 @@ public class RegisterActivity  extends AppCompatActivity {
 
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
         UserItemDao = appDatabase.userItemDao();
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //check whether user want to cancel to save info
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("Register is not complete yet")
+                        .setMessage("Unsaved register will discard if you click yes")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // discard the data and jump to the main page
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("no", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // users click cancel button, noting to do
+                            }
+                        });
+                builder.create().show();
+            }
+        });
     }
 
     /**
