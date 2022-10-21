@@ -8,6 +8,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import comp5216.sydney.edu.au.diarypro.entity.UserItem;
+import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 
 @Dao
 public interface UserItemDao {
@@ -16,7 +17,7 @@ public interface UserItemDao {
     List<UserItem> getAll();
 
     @Insert
-    void insertItem(UserItem diaryItem);
+    void insertItem(UserItem UserItem);
 
     @Query("delete from UserItem")
     void deleteAll();
@@ -26,4 +27,10 @@ public interface UserItemDao {
 
     @Update
     void update(UserItem... userItem);
+
+    @Query("select count(*) from UserItem where username = :username")
+    int checkUserExist(String username);
+
+    @Query("select password from UserItem where username = :username")
+    String getPassword(String username);
 }

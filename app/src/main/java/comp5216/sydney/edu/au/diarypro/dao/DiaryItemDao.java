@@ -22,4 +22,6 @@ public interface DiaryItemDao {
 
     @Query("delete from diaryItem where id = :id")
     void deleteById(int id);
+
+
 }

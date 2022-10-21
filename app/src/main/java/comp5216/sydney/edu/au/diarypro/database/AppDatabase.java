@@ -10,12 +10,14 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import comp5216.sydney.edu.au.diarypro.dao.DiaryItemDao;
+import comp5216.sydney.edu.au.diarypro.dao.UserItemDao;
 import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
 import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
+import comp5216.sydney.edu.au.diarypro.entity.UserItem;
 
 // declare the entities to the database
-@Database(entities = {DiaryItem.class, WorkStudyEventItem.class}, version = 5, exportSchema = false)
+@Database(entities = {DiaryItem.class, WorkStudyEventItem.class, UserItem.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "diaryProDB";
     private static AppDatabase DBINSTANCE;
@@ -24,6 +26,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract DiaryItemDao diaryItemDao();
 
     public abstract WorkStudyEventDao workStudyEventItemDao();
+
+    public abstract UserItemDao userItemDao();
 
     // using the singleton design pattern, to make sure the database only has one
     public static AppDatabase getDatabase(Context context) {

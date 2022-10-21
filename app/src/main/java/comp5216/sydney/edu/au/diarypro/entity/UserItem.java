@@ -15,17 +15,13 @@ public class UserItem {
     @ColumnInfo(name="id")
     private int id;
 
-    // the name of diary item
+    // the username of user item
     @ColumnInfo(name="username")
     private String username;
 
-    // the added date of this item
+    // the password of user item
     @ColumnInfo(name="password")
     private String password;
-
-    // the image show in the font of a diary item which is the same path(in drawable folder) as 'imageInHomePage' in WorkStudyEventItem class
-    @ColumnInfo(name = "image")
-    private int image;
 
 
     public UserItem() {
@@ -41,10 +37,6 @@ public class UserItem {
         return id;
     }
 
-    public int getImage() {
-        return image;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -55,10 +47,6 @@ public class UserItem {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 
     public void setPassword(String password) {
