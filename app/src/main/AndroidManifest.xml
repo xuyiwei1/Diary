@@ -61,6 +61,8 @@
         <activity android:name=".StudyEditActivity"/>
         <activity android:name=".EventEditActivity"/>
         <activity android:name=".FoodEditActivity"/>
+        <activity android:name=".RunEditActivity"/>
+        <activity android:name=".WalkEditActivity"/>
     </application>
 
 </manifest>

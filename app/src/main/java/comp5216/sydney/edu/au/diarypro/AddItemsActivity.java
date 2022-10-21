@@ -54,11 +54,36 @@ public class AddItemsActivity extends AppCompatActivity {
     }
 
     /**
-     * click button jump to study edit page
+     * click button jump to food edit page
      * @param view
      */
     public void jumpToFoodEditPage(View view) {
         Intent intent = new Intent(AddItemsActivity.this,FoodEditActivity.class);
+        // pass the date to the diary edit page
+        Intent intentFromPrevious = getIntent();
+        String dateDiary = intentFromPrevious.getStringExtra("dateDiary");
+        intent.putExtra("dateDiary",dateDiary);
+        startActivity(intent);
+    }
+    /**
+     * click button jump to run edit page
+     * @param view
+     */
+    public void jumpToRunEditPage(View view) {
+        Intent intent = new Intent(AddItemsActivity.this,RunEditActivity.class);
+        // pass the date to the diary edit page
+        Intent intentFromPrevious = getIntent();
+        String dateDiary = intentFromPrevious.getStringExtra("dateDiary");
+        intent.putExtra("dateDiary",dateDiary);
+        startActivity(intent);
+    }
+
+    /**
+     * click button jump to walk edit page
+     * @param view
+     */
+    public void jumpToWalkEditPage(View view) {
+        Intent intent = new Intent(AddItemsActivity.this,WalkEditActivity.class);
         // pass the date to the diary edit page
         Intent intentFromPrevious = getIntent();
         String dateDiary = intentFromPrevious.getStringExtra("dateDiary");
