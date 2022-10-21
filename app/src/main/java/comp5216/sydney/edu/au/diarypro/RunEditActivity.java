@@ -34,30 +34,30 @@ import comp5216.sydney.edu.au.diarypro.engine.GlideEngine;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 import comp5216.sydney.edu.au.diarypro.util.DateConvertUtil;
 
-public class FoodEditActivity extends AppCompatActivity {
+public class RunEditActivity extends AppCompatActivity {
 
-    private EditText foodEditText;
-    private ImageView foodImageView;
+    private EditText runEditText;
+    private ImageView runImageView;
     private AppDatabase appDatabase;
-    private WorkStudyEventDao foodStudyEventDao;
+    private WorkStudyEventDao runStudyEventDao;
     private String path;
     private static String dateDiary;
     // judge which page the data come from using to judge insert or update data
     private int stateCode;
 
     // for log
-    private static final String TAG = "FoodEditActivity";
+    private static final String TAG = "RunEditActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_edit);
+        setContentView(R.layout.activity_run_edit);
         // init the layout
-        foodEditText = this.findViewById(R.id.foodEditView);
-        foodImageView = this.findViewById(R.id.foodUploadImageView);
+        runEditText = this.findViewById(R.id.runEditView);
+        runImageView = this.findViewById(R.id.runUploadImageView);
         //init the database
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
-        foodStudyEventDao = appDatabase.workStudyEventItemDao();
+        runStudyEventDao = appDatabase.workStudyEventItemDao();
 
 
         //show the information when user click the item in Home page
@@ -66,9 +66,9 @@ public class FoodEditActivity extends AppCompatActivity {
         String imagePath = intent.getStringExtra("imagePath");
         stateCode = intent.getIntExtra("fromHomePage", -1);
         // load the photo and text
-        foodEditText.setText(content);
+        runEditText.setText(content);
         if (imagePath != null && imagePath.length() > 0) {
-            Glide.with(FoodEditActivity.this).load(imagePath).into(foodImageView);
+            Glide.with(RunEditActivity.this).load(imagePath).into(runImageView);
         }
 
     }
@@ -80,14 +80,14 @@ public class FoodEditActivity extends AppCompatActivity {
      */
     public void cancelEditBtn(View view) {
         //check whether user want to cancel to save info
-        AlertDialog.Builder builder = new AlertDialog.Builder(FoodEditActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RunEditActivity.this);
         builder.setTitle(R.string.dialog_cancel_title)
                 .setMessage(R.string.dialog_cancel_edit_add_item_msg)
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // discard the data and jump to the main page
-                        foodEditText.setText("");
+                        runEditText.setText("");
                         finish();
                     }
                 })
@@ -106,7 +106,7 @@ public class FoodEditActivity extends AppCompatActivity {
      * @param view
      */
     public void uploadImage(View view) {
-        selectPhotoAndAll(foodImageView);
+        selectPhotoAndAll(runImageView);
     }
 
     /**
@@ -121,7 +121,7 @@ public class FoodEditActivity extends AppCompatActivity {
                     public void onResult(ArrayList<LocalMedia> result) {
                         Log.e("leo", "图片路径" + result.get(0).getPath());
                         Log.e("leo", "绝对路径" + result.get(0).getRealPath());
-                        Glide.with(FoodEditActivity.this).load(result.get(0).getPath()).into(imageView);
+                        Glide.with(RunEditActivity.this).load(result.get(0).getPath()).into(imageView);
                         //将bitmap图片传入后端
                         //imageUpLoad(result.get(0).getRealPath());
                         submitPicture(result.get(0).getRealPath());
@@ -129,7 +129,7 @@ public class FoodEditActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancel() {
-                        Toast.makeText(FoodEditActivity.this, "error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RunEditActivity.this, "error", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -153,23 +153,23 @@ public class FoodEditActivity extends AppCompatActivity {
      *
      * @param view
      */
-    public void clickFoodSave(View view) {
+    public void clickRunSave(View view) {
         Intent intentFromPrevious = getIntent();
         //String dateDiary = intentFromPrevious.getExtras().getString("dateDiary");
-        Log.d(TAG, "clickFoodSave: dateDiary " + dateDiary);
+        Log.d(TAG, "clickRunSave: dateDiary " + dateDiary);
         //check update or insert data
         if (stateCode == 666) {
             // need id to update
             Intent intent = getIntent();
             int id = intent.getExtras().getInt("id");
-            Glide.with(FoodEditActivity.this).load(path).into(foodImageView);
-            foodStudyEventDao.update(new WorkStudyEventItem(id,foodEditText.getText().toString(), path, "food", dateDiary,R.drawable.food));
+            Glide.with(RunEditActivity.this).load(path).into(runImageView);
+            runStudyEventDao.update(new WorkStudyEventItem(id,runEditText.getText().toString(), path, "run", dateDiary,R.drawable.run));
         } else {
-            foodStudyEventDao.insertItem(new WorkStudyEventItem(foodEditText.getText().toString(), path, "food", dateDiary,R.drawable.food));
+            runStudyEventDao.insertItem(new WorkStudyEventItem(runEditText.getText().toString(), path, "run", dateDiary,R.drawable.run));
         }
         //back to the Home Page
         Toast.makeText(this, "save successfully", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(FoodEditActivity.this, HomeActivity.class);
+        Intent intent = new Intent(RunEditActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 
@@ -178,12 +178,12 @@ public class FoodEditActivity extends AppCompatActivity {
      *
      * @param view
      */
-    public void showDatePickerFood(View view) {
-        DatePickerFragmentFood datePickerFragment = new DatePickerFragmentFood();
+    public void showDatePickerRun(View view) {
+        DatePickerFragmentRun datePickerFragment = new DatePickerFragmentRun();
         datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public static class DatePickerFragmentFood extends DialogFragment
+    public static class DatePickerFragmentRun extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
         @Override

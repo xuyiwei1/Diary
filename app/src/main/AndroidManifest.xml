@@ -60,6 +60,7 @@
         <activity android:name=".WorkEditActivity"/>
         <activity android:name=".StudyEditActivity"/>
         <activity android:name=".EventEditActivity"/>
+        <activity android:name=".FoodEditActivity"/>
     </application>
 
 </manifest>
