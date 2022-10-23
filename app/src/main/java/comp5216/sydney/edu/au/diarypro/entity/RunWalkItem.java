@@ -14,11 +14,14 @@ public class RunWalkItem {
     private int id;
 
     //the content of work study and event
-    @ColumnInfo(name = "content")
-    private String content;
+    @ColumnInfo(name = "runDistance")
+    private int runDistance;
 
-    @ColumnInfo(name = "imagePath")
-    private String imagePath;
+    @ColumnInfo(name = "runTime")
+    private int runTime;
+
+    @ColumnInfo(name = "runCalories")
+    private String runCalories;
 
     //the type of diary item(work study or event)
     @ColumnInfo(name = "type")
@@ -36,29 +39,32 @@ public class RunWalkItem {
     }
 
     @Ignore
-    public RunWalkItem(String content, String imagePath, String type, String dateDiary,int imageInHomePage) {
-        this.content = content;
-        this.imagePath = imagePath;
+    public RunWalkItem(String runTime,String runDistance,String runCalories, String type, String dateDiary,int imageInHomePage) {
+        this.runTime = runTime.equals("")?0:Integer.parseInt(runTime);
+        this.runDistance = runDistance.equals("")?0:Integer.parseInt(runDistance);
+        this.runCalories = runCalories;
         this.type = type;
         this.dateDiary = dateDiary;
         this.imageInHomePage = imageInHomePage;
     }
 
     @Ignore
-    public RunWalkItem(int id,String content, String imagePath, String type,String dateDiary,int imageInHomePage) {
+    public RunWalkItem(int id,String runTime,String runDistance,String runCalories, String type,String dateDiary,int imageInHomePage) {
         this.id = id;
-        this.content = content;
-        this.imagePath = imagePath;
+        this.runTime = runTime.equals("")?0:Integer.parseInt(runTime);
+        this.runDistance = runDistance.equals("")?0:Integer.parseInt(runDistance);
+        this.runCalories = runCalories;
         this.type = type;
         this.dateDiary = dateDiary;
         this.imageInHomePage = imageInHomePage;
     }
 
     @Ignore
-    public RunWalkItem(int id, String content, String imagePath, String type) {
+    public RunWalkItem(int id, String runTime,String runDistance,String runCalories, String type) {
         this.id = id;
-        this.content = content;
-        this.imagePath = imagePath;
+        this.runTime = runTime.equals("")?0:Integer.parseInt(runTime);
+        this.runDistance = runDistance.equals("")?0:Integer.parseInt(runDistance);
+        this.runCalories = runCalories;
         this.type = type;
     }
 
@@ -70,21 +76,17 @@ public class RunWalkItem {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
-    }
+    public String getRunCalories() {return runCalories;}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+    public int getRunDistance() {return runDistance;}
 
-    public String getImagePath() {
-        return imagePath;
-    }
+    public int getRunTime() {return runTime;}
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+    public void setRunCalories(String runCalories) {this.runCalories = runCalories;}
+
+    public void setRunDistance(int runDistance) {this.runDistance = runDistance;}
+
+    public void setRunTime(int runTime) {this.runTime = runTime;}
 
     public String getType() {
         return type;

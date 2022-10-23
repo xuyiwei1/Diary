@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.638"
         app:srcCompat="@drawable/run" />
 
     <TextView
@@ -34,21 +35,33 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="26dp"
-        android:text="Content"
-        android:textSize="40sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="total exercise time"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-    <EditText
-        android:id="@+id/runEditView"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text="min"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <EditText
+        android:id="@+id/runTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:hint="Edit here"
+        android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -58,12 +71,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
-        android:text="Add Photos"
-        android:textSize="40sp"
+        android:layout_marginTop="4dp"
+        android:text="total exercise distance"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runEditView" />
+        app:layout_constraintTop_toBottomOf="@+id/runTime" />
 
     <Button
         android:id="@+id/runCancelBtn"
@@ -71,11 +84,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginEnd="44dp"
-        android:layout_marginBottom="53dp"
-        android:text="cancel"
+        android:layout_marginBottom="52dp"
         android:onClick="cancelEditBtn"
+        android:text="cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -89,23 +103,70 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/runUploadImageView"
-        android:layout_width="89dp"
-        android:layout_height="90dp"
+    <EditText
+        android:id="@+id/runDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="428dp"
-        android:onClick="uploadImage"
+        android:layout_marginTop="4dp"
+        android:hint="Edit here"
+        android:minHeight="48dp"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="4dp"
+        android:text="m"
+        android:textSize="30sp"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="total exercise calories"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/runDistance" />
+
+    <TextView
+        android:id="@+id/runCalories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="0"
+        android:textSize="30sp"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text="kcal"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="448dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="564dp"
         android:onClick="showDatePickerRun"
         android:text="Time"
         app:layout_constraintStart_toStartOf="parent"

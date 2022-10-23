@@ -6,11 +6,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -28,22 +31,29 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
+import comp5216.sydney.edu.au.diarypro.dao.RunWalkDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.engine.GlideEngine;
+import comp5216.sydney.edu.au.diarypro.entity.RunWalkItem;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 import comp5216.sydney.edu.au.diarypro.util.DateConvertUtil;
+import comp5216.sydney.edu.au.diarypro.util.UserInfo;
 
 public class WalkEditActivity extends AppCompatActivity {
 
-    private EditText walkEditText;
-    private ImageView walkImageView;
+    private EditText walkDistance;
+    private EditText walkTime;
+    private TextView walkCalories;
+
     private AppDatabase appDatabase;
-    private WorkStudyEventDao walkStudyEventDao;
+    private RunWalkDao walkWalkItemDao;
     private String path;
     private static String dateDiary;
     // judge which page the data come from using to judge insert or update data
     private int stateCode;
+
+    UserInfo userInfo;
+    int weight;
 
     // for log
     private static final String TAG = "WalkEditActivity";
@@ -53,24 +63,46 @@ public class WalkEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walk_edit);
         // init the layout
-        walkEditText = this.findViewById(R.id.walkEditView);
-        walkImageView = this.findViewById(R.id.walkUploadImageView);
+        walkCalories = this.findViewById(R.id.walkCalories);
+        walkTime = this.findViewById(R.id.walkTime);
+        walkDistance = this.findViewById(R.id.walkDistance);
+
         //init the database
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
-        walkStudyEventDao = appDatabase.workStudyEventItemDao();
+        walkWalkItemDao = appDatabase.runWalkItemDao();
+        userInfo = (UserInfo)getApplicationContext();
+        weight = userInfo.getUserItem().getWeight();
+
 
 
         //show the information when user click the item in Home page
         Intent intent = getIntent();
-        String content = intent.getStringExtra("content");
-        String imagePath = intent.getStringExtra("imagePath");
+        String walkTimeStr = intent.getStringExtra("walkTime");
+        String walkDistanceStr = intent.getStringExtra("walkDistance");
+        String walkCaloriesStr = intent.getStringExtra("walkCalories");
+
         stateCode = intent.getIntExtra("fromHomePage", -1);
         // load the photo and text
-        walkEditText.setText(content);
-        if (imagePath != null && imagePath.length() > 0) {
-            Glide.with(WalkEditActivity.this).load(imagePath).into(walkImageView);
-        }
+        walkDistance.setText(walkDistanceStr);
+        walkCalories.setText(walkCaloriesStr);
+        walkTime.setText(walkTimeStr);
 
+        walkTime.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editable.length()>0){
+                    walkCalories.setText((String.format("%.2f", 0.164*weight*Integer.parseInt(walkTime.getText().toString()))));
+                }else{
+                    walkCalories.setText("0");
+                }
+            }
+        });
     }
 
     /**
@@ -87,7 +119,9 @@ public class WalkEditActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // discard the data and jump to the main page
-                        walkEditText.setText("");
+                        walkDistance.setText("");
+                        walkCalories.setText("");
+                        walkTime.setText("0");
                         finish();
                     }
                 })
@@ -100,52 +134,7 @@ public class WalkEditActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    /**
-     * click to upload the image
-     *
-     * @param view
-     */
-    public void uploadImage(View view) {
-        selectPhotoAndAll(walkImageView);
-    }
 
-    /**
-     * select photo from gallery
-     */
-    private void selectPhotoAndAll(ImageView imageView) {
-        PictureSelector.create(this)
-                .openGallery(SelectMimeType.ofImage())
-                .setImageEngine(GlideEngine.createGlideEngine()).setMaxSelectNum(1)
-                .forResult(new OnResultCallbackListener<LocalMedia>() {
-                    @Override
-                    public void onResult(ArrayList<LocalMedia> result) {
-                        Log.e("leo", "图片路径" + result.get(0).getPath());
-                        Log.e("leo", "绝对路径" + result.get(0).getRealPath());
-                        Glide.with(WalkEditActivity.this).load(result.get(0).getPath()).into(imageView);
-                        //将bitmap图片传入后端
-                        //imageUpLoad(result.get(0).getRealPath());
-                        submitPicture(result.get(0).getRealPath());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Toast.makeText(WalkEditActivity.this, "error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    /**
-     * upload image to the sd card
-     *
-     * @param path
-     */
-    private void submitPicture(String path) {
-        //E/leo: 图片路径/storage/emulated/0/DCIM/Camera/IMG_20221016031948104.jpeg
-        //E/leo: 绝对路径/storage/emulated/0/DCIM/Camera/IMG_20221016031948104.jpeg
-        // save the image path to sqlite
-        this.path = path;
-        System.out.println(path);
-    }
 
 
     /**
@@ -162,10 +151,9 @@ public class WalkEditActivity extends AppCompatActivity {
             // need id to update
             Intent intent = getIntent();
             int id = intent.getExtras().getInt("id");
-            Glide.with(WalkEditActivity.this).load(path).into(walkImageView);
-            walkStudyEventDao.update(new WorkStudyEventItem(id,walkEditText.getText().toString(), path, "walk", dateDiary,R.drawable.walk));
+            walkWalkItemDao.update(new RunWalkItem(id,walkTime.getText().toString(),walkDistance.getText().toString(),walkCalories.getText().toString() , "walk", dateDiary,R.drawable.walk));
         } else {
-            walkStudyEventDao.insertItem(new WorkStudyEventItem(walkEditText.getText().toString(), path, "walk", dateDiary,R.drawable.walk));
+            walkWalkItemDao.insertItem(new RunWalkItem(walkTime.getText().toString(),walkDistance.getText().toString(),walkCalories.getText().toString(), "walk", dateDiary,R.drawable.walk));
         }
         //back to the Home Page
         Toast.makeText(this, "save successfully", Toast.LENGTH_SHORT).show();

@@ -7,30 +7,30 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
+import comp5216.sydney.edu.au.diarypro.entity.RunWalkItem;
 
 @Dao
 public interface RunWalkDao {
 
-    @Query("select * from workStudyEventItem")
-    List<WorkStudyEventItem> getAll();
+    @Query("select * from runWalkItem")
+    List<RunWalkItem> getAll();
 
-    @Query("select * from workStudyEventItem where id = :id")
-    WorkStudyEventItem getItemById(int id);
+    @Query("select * from runWalkItem where id = :id")
+    RunWalkItem getItemById(int id);
 
     @Insert
-    void insertItem(WorkStudyEventItem workStudyEventItem);
+    void insertItem(RunWalkItem runWalkItem);
 
-    @Query("delete from workStudyEventItem")
+    @Query("delete from runWalkItem")
     void deleteAll();
 
     @Update
-    void update(WorkStudyEventItem... workStudyEventItem);
+    void update(RunWalkItem... runWalkItem);
 
-    @Query("delete from workStudyEventItem where id = :id")
+    @Query("delete from runWalkItem where id = :id")
     void deleteById(int id);
 
-    @Query("select * from workStudyEventItem where dateDiary = :date")
-    List<WorkStudyEventItem> getItemByDate(String date);
+    @Query("select * from runWalkItem where dateDiary = :date")
+    List<RunWalkItem> getItemByDate(String date);
 
 }

@@ -38,9 +38,13 @@ import java.util.UUID;
 
 import comp5216.sydney.edu.au.diarypro.adapter.DiaryItemListViewAdapter;
 import comp5216.sydney.edu.au.diarypro.dao.DiaryItemDao;
+import comp5216.sydney.edu.au.diarypro.dao.FoodDao;
+import comp5216.sydney.edu.au.diarypro.dao.RunWalkDao;
 import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.entity.DiaryItem;
+import comp5216.sydney.edu.au.diarypro.entity.FoodItem;
+import comp5216.sydney.edu.au.diarypro.entity.RunWalkItem;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 import comp5216.sydney.edu.au.diarypro.util.DateConvertUtil;
 
@@ -51,12 +55,18 @@ public class HomeActivity extends AppCompatActivity {
     private Button addNewItemBtn;
     private ListView diaryItemListView;
     private static List<DiaryItem> diaryItems = new ArrayList<>();
+
     private List<WorkStudyEventItem> workStudyEventItems;
+    private List<RunWalkItem> runWalkItems;
+    private List<FoodItem> foodItems;
+
     private static DiaryItemListViewAdapter diaryItemListViewAdapter;
     private static String dateDiary;
     // the database
     private AppDatabase appDatabase;
     private static WorkStudyEventDao workStudyEventDao;
+    private static RunWalkDao runWalkDao;
+    private static FoodDao foodDao;
     // cloud service
     private FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -76,11 +86,23 @@ public class HomeActivity extends AppCompatActivity {
         // query the food run .. table to get other item and add it to the diaryItems list
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
         workStudyEventDao = appDatabase.workStudyEventItemDao();
+        runWalkDao = appDatabase.runWalkItemDao();
+        foodDao = appDatabase.foodItemDao();
         // remember to clear the diaryItems because it was declare as static, all the diaryItems field share the same cache
         diaryItems.clear();
         workStudyEventItems = workStudyEventDao.getAll();
         for (WorkStudyEventItem workStudyEventItem : workStudyEventItems) {
             diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
+        }
+
+        runWalkItems = runWalkDao.getAll();
+        for (RunWalkItem runWalkItem : runWalkItems) {
+            diaryItems.add(new DiaryItem(runWalkItem.getId(), runWalkItem.getType(), runWalkItem.getDateDiary(),runWalkItem.getImageInHomePage()));
+        }
+
+        foodItems = foodDao.getAll();
+        for (FoodItem foodItem : foodItems) {
+            diaryItems.add(new DiaryItem(foodItem.getId(), foodItem.getType(), foodItem.getDateDiary(),foodItem.getImageInHomePage()));
         }
 
         //create the listview adapter
@@ -187,7 +209,16 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //remove the data from local database
-                                workStudyEventDao.deleteById(diaryItems.get(position).getId());
+                                DiaryItem diaryItem = (DiaryItem) diaryItemListViewAdapter.getItem(position);
+                                if(diaryItem.getName().equals("work")||diaryItem.getName().equals("study")||diaryItem.getName().equals("event")) {
+                                    workStudyEventDao.deleteById(diaryItems.get(position).getId());
+                                }
+                                else if(diaryItem.getName().equals("run")||diaryItem.getName().equals("walk")){
+                                    runWalkDao.deleteById(diaryItems.get(position).getId());
+                                }
+                                else if(diaryItem.getName().equals("food")){
+                                    foodDao.deleteById(diaryItems.get(position).getId());
+                                }
                                 //when click the delete button delete the item in the listview
                                 diaryItems.remove(position);
                                 diaryItemListViewAdapter.notifyDataSetChanged();
@@ -211,37 +242,84 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DiaryItem diaryItem = (DiaryItem) diaryItemListViewAdapter.getItem(position);
                 //query the work study or event item based on diaryItem's id
-                WorkStudyEventItem workStudyEventItem = workStudyEventDao.getItemById(diaryItem.getId());
-                Log.d(TAG, "onItemClick: position" + position + " getItem: " + workStudyEventItem);
-                //TODO check the type of the diary item switch to the work study or event layout
-                Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
-                String type = workStudyEventItem.getType();
-                if (type.equals("work")) {
-                    intent = new Intent(HomeActivity.this, WorkEditActivity.class);
-                }else if(type.equals("study")) {
-                    intent = new Intent(HomeActivity.this, StudyEditActivity.class);
-                }else if(type.equals("event")) {
-                    intent = new Intent(HomeActivity.this, EventEditActivity.class);
-                }
-                if (intent != null) {
-                    intent.putExtra("content", workStudyEventItem.getContent());
-                    intent.putExtra("imagePath", workStudyEventItem.getImagePath());
-                    intent.putExtra("id", workStudyEventItem.getId());
-                    intent.putExtra("fromHomePage", 666);
-                    intent.putExtra("dateDiary", dateDiary);
-
-                    //get the original id of the item to update in later, because of the delete action
-                    /*List<WorkStudyEventItem> shopItemList = workStudyEventDao.getAll();
-                    WorkStudyEventItem originItem = null;
-                    for (WorkStudyEventItem item : shopItemList) {
-                        if (item.getName().equals(shopItem.getName())) {
-                            originItem = item;
-                        }
+                if(diaryItem.getName().equals("work")||diaryItem.getName().equals("study")||diaryItem.getName().equals("event")) {
+                    WorkStudyEventItem workStudyEventItem = workStudyEventDao.getItemById(diaryItem.getId());
+                    Log.d(TAG, "onItemClick: position" + position + " getItem: " + workStudyEventItem);
+                    //TODO check the type of the diary item switch to the work study or event layout
+                    Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
+                    String type = workStudyEventItem.getType();
+                    if (type.equals("work")) {
+                        intent = new Intent(HomeActivity.this, WorkEditActivity.class);
+                    } else if (type.equals("study")) {
+                        intent = new Intent(HomeActivity.this, StudyEditActivity.class);
+                    } else if (type.equals("event")) {
+                        intent = new Intent(HomeActivity.this, EventEditActivity.class);
                     }
-                    intent.putExtra("id", originItem.getId());*/
+                    if (intent != null) {
+                        intent.putExtra("content", workStudyEventItem.getContent());
+                        intent.putExtra("imagePath", workStudyEventItem.getImagePath());
+                        intent.putExtra("id", workStudyEventItem.getId());
+                        intent.putExtra("fromHomePage", 666);
+                        intent.putExtra("dateDiary", dateDiary);
 
-                    mLauncher.launch(intent);
-                    diaryItemListViewAdapter.notifyDataSetChanged();
+                        //get the original id of the item to update in later, because of the delete action
+                        /*List<WorkStudyEventItem> shopItemList = workStudyEventDao.getAll();
+                        WorkStudyEventItem originItem = null;
+                        for (WorkStudyEventItem item : shopItemList) {
+                            if (item.getName().equals(shopItem.getName())) {
+                                originItem = item;
+                            }
+                        }
+                        intent.putExtra("id", originItem.getId());*/
+
+                        mLauncher.launch(intent);
+                        diaryItemListViewAdapter.notifyDataSetChanged();
+                    }
+                }
+                else if(diaryItem.getName().equals("run")||diaryItem.getName().equals("walk")){
+                    RunWalkItem runWalkItem = runWalkDao.getItemById(diaryItem.getId());
+                    Log.d(TAG, "onItemClick: position" + position + " getItem: " + runWalkItem.getId());
+                    Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
+                    String type = runWalkItem.getType();
+                    if (type.equals("run")) {
+                        intent = new Intent(HomeActivity.this, RunEditActivity.class);
+                    } else if (type.equals("walk")) {
+                        intent = new Intent(HomeActivity.this, WalkEditActivity.class);
+                    }
+                    if (intent != null) {
+                        intent.putExtra("runTime", ""+runWalkItem.getRunTime());
+                        intent.putExtra("runDistance", ""+runWalkItem.getRunDistance());
+                        intent.putExtra("runCalories", ""+runWalkItem.getRunCalories());
+                        intent.putExtra("id", runWalkItem.getId());
+                        intent.putExtra("fromHomePage", 666);
+                        intent.putExtra("dateDiary", dateDiary);
+
+                        mLauncher.launch(intent);
+                        diaryItemListViewAdapter.notifyDataSetChanged();
+                    }
+                }
+                else if(diaryItem.getName().equals("food")){
+                    FoodItem foodItem = foodDao.getItemById(diaryItem.getId());
+                    Log.d(TAG, "onItemClick: position" + position + " getItem: " + foodItem.getId());
+                    Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
+                    String type = foodItem.getType();
+
+                    intent = new Intent(HomeActivity.this, FoodEditActivity.class);
+                    if (intent != null) {
+                        intent.putExtra("breakfastName", ""+foodItem.getBreakfastName());
+                        intent.putExtra("lunchName", ""+foodItem.getLunchName());
+                        intent.putExtra("dinnerName", ""+foodItem.getDinnerName());
+                        intent.putExtra("breakfastCal", ""+foodItem.getBreakfastCal());
+                        intent.putExtra("lunchCal", ""+foodItem.getLunchCal());
+                        intent.putExtra("dinnerCal", ""+foodItem.getDinnerCal());
+                        intent.putExtra("totalCal", ""+foodItem.getTotalCal());
+                        intent.putExtra("id", foodItem.getId());
+                        intent.putExtra("fromHomePage", 666);
+                        intent.putExtra("dateDiary", dateDiary);
+
+                        mLauncher.launch(intent);
+                        diaryItemListViewAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });

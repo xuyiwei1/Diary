@@ -29,6 +29,9 @@ public class UserItem {
     @ColumnInfo(name="imagePath")
     private String imagePath;
 
+    @ColumnInfo(name="weight")
+    private int weight;
+
 
     public UserItem() {
     }
@@ -39,6 +42,7 @@ public class UserItem {
         this.password = password;
         this.nickname = "default";
         this.imagePath = null;
+        this.weight = 60;
     }
 
     public int getId() {
@@ -72,4 +76,8 @@ public class UserItem {
     public String getImagePath() {return imagePath;}
 
     public void setImagePath(String imagePath) {this.imagePath = imagePath;}
+
+    public int getWeight() {return weight;}
+
+    public void setWeight(int weight) {this.weight = weight;}
 }

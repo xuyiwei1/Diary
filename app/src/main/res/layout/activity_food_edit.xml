@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.638"
         app:srcCompat="@drawable/food" />
 
     <TextView
@@ -34,21 +35,44 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="26dp"
-        android:text="Content"
-        android:textSize="40sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="Breakfast"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
-    <EditText
-        android:id="@+id/foodEditView"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text="Kcal"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <EditText
+        android:id="@+id/breakfastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
         android:hint="Edit here"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <EditText
+        android:id="@+id/breakfastCal"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="4dp"
+        android:hint="0"
+        android:inputType="number"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -58,12 +82,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
-        android:text="Add Photos"
-        android:textSize="40sp"
+        android:layout_marginTop="4dp"
+        android:text="Lunch"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foodEditView" />
+        app:layout_constraintTop_toBottomOf="@+id/breakfastName" />
 
     <Button
         android:id="@+id/foodCancelBtn"
@@ -71,11 +95,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
         android:layout_marginEnd="44dp"
-        android:layout_marginBottom="53dp"
-        android:text="cancel"
+        android:layout_marginBottom="52dp"
         android:onClick="cancelEditBtn"
+        android:text="cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintHorizontal_bias="0.153"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -89,23 +114,126 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/foodUploadImageView"
-        android:layout_width="89dp"
-        android:layout_height="90dp"
+    <EditText
+        android:id="@+id/lunchName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="428dp"
-        android:onClick="uploadImage"
+        android:layout_marginTop="4dp"
+        android:hint="Edit here"
+        android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <EditText
+        android:id="@+id/lunchCal"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="4dp"
+        android:hint="0"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text="Kcal"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/totalCal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="20dp"
+        android:minHeight="48dp"
+        android:text="0"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dinnerName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="20dp"
+        android:minHeight="48dp"
+        android:text="Total"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dinnerName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="20dp"
+        android:minHeight="48dp"
+        android:text="Kcal"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dinnerName" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:text="Dinner"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunchName" />
+
+    <EditText
+        android:id="@+id/dinnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:hint="Edit here"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <EditText
+        android:id="@+id/dinnerCal"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginTop="4dp"
+        android:hint="0"
+        android:inputType="number"
+        android:minHeight="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text="Kcal"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="448dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="564dp"
         android:onClick="showDatePickerFood"
         android:text="Time"
         app:layout_constraintStart_toStartOf="parent"
