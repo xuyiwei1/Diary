@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
+import comp5216.sydney.edu.au.diarypro.dao.RunWalkDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.engine.GlideEngine;
 import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
@@ -39,7 +39,7 @@ public class RunEditActivity extends AppCompatActivity {
     private EditText runEditText;
     private ImageView runImageView;
     private AppDatabase appDatabase;
-    private WorkStudyEventDao runStudyEventDao;
+    private RunWalkDao runWalkDao;
     private String path;
     private static String dateDiary;
     // judge which page the data come from using to judge insert or update data
@@ -57,7 +57,7 @@ public class RunEditActivity extends AppCompatActivity {
         runImageView = this.findViewById(R.id.runUploadImageView);
         //init the database
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
-        runStudyEventDao = appDatabase.workStudyEventItemDao();
+        runWalkDao = appDatabase.RunWalkDao();
 
 
         //show the information when user click the item in Home page
@@ -163,9 +163,9 @@ public class RunEditActivity extends AppCompatActivity {
             Intent intent = getIntent();
             int id = intent.getExtras().getInt("id");
             Glide.with(RunEditActivity.this).load(path).into(runImageView);
-            runStudyEventDao.update(new WorkStudyEventItem(id,runEditText.getText().toString(), path, "run", dateDiary,R.drawable.run));
+            runWalkDao.update(new WorkStudyEventItem(id,runEditText.getText().toString(), path, "run", dateDiary,R.drawable.run));
         } else {
-            runStudyEventDao.insertItem(new WorkStudyEventItem(runEditText.getText().toString(), path, "run", dateDiary,R.drawable.run));
+            runWalkDao.insertItem(new WorkStudyEventItem(runEditText.getText().toString(), path, "run", dateDiary,R.drawable.run));
         }
         //back to the Home Page
         Toast.makeText(this, "save successfully", Toast.LENGTH_SHORT).show();
