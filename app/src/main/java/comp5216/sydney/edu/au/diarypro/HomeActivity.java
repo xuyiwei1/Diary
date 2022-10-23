@@ -72,7 +72,8 @@ public class HomeActivity extends AppCompatActivity {
         //init the date of diary is now by default
         dateDiary = DateConvertUtil.getCurrentDate();
 
-        // query the database to get the diary items
+        //TODO query the database to get the diary items
+        // query the food run .. table to get other item and add it to the diaryItems list
         appDatabase = AppDatabase.getDatabase(this.getApplication().getApplicationContext());
         workStudyEventDao = appDatabase.workStudyEventItemDao();
         // remember to clear the diaryItems because it was declare as static, all the diaryItems field share the same cache
