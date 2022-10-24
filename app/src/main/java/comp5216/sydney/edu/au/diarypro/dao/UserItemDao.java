@@ -5,10 +5,8 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import java.util.List;
 
 import comp5216.sydney.edu.au.diarypro.entity.UserItem;
-import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 
 @Dao
 public interface UserItemDao {

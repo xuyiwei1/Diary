@@ -1,7 +1,6 @@
 package comp5216.sydney.edu.au.diarypro.util;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class DateConvertUtil {

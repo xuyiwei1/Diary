@@ -13,10 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import comp5216.sydney.edu.au.diarypro.dao.UserItemDao;
-import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
 import comp5216.sydney.edu.au.diarypro.entity.UserItem;
-import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 
 public class RegisterActivity  extends AppCompatActivity {
     private EditText username;

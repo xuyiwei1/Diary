@@ -7,17 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import comp5216.sydney.edu.au.diarypro.dao.UserItemDao;
-import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
-import comp5216.sydney.edu.au.diarypro.entity.UserItem;
-import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 import comp5216.sydney.edu.au.diarypro.util.UserInfo;
 
 public class ChangePasswordActivity  extends AppCompatActivity {

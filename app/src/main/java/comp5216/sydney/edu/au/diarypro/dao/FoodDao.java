@@ -8,7 +8,6 @@ import androidx.room.Update;
 import java.util.List;
 
 import comp5216.sydney.edu.au.diarypro.entity.FoodItem;
-import comp5216.sydney.edu.au.diarypro.entity.RunWalkItem;
 
 @Dao
 public interface FoodDao {

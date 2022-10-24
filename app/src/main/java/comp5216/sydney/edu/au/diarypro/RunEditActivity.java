@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,21 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import com.bumptech.glide.Glide;
-import com.luck.picture.lib.basic.PictureSelector;
-import com.luck.picture.lib.config.SelectMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 
 import comp5216.sydney.edu.au.diarypro.dao.RunWalkDao;
 import comp5216.sydney.edu.au.diarypro.database.AppDatabase;
-import comp5216.sydney.edu.au.diarypro.engine.GlideEngine;
 import comp5216.sydney.edu.au.diarypro.entity.RunWalkItem;
-import comp5216.sydney.edu.au.diarypro.entity.WorkStudyEventItem;
 import comp5216.sydney.edu.au.diarypro.util.DateConvertUtil;
 import comp5216.sydney.edu.au.diarypro.util.UserInfo;
 

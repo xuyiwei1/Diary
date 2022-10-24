@@ -29,15 +29,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import comp5216.sydney.edu.au.diarypro.adapter.DiaryItemListViewAdapter;
-import comp5216.sydney.edu.au.diarypro.dao.DiaryItemDao;
 import comp5216.sydney.edu.au.diarypro.dao.FoodDao;
 import comp5216.sydney.edu.au.diarypro.dao.RunWalkDao;
 import comp5216.sydney.edu.au.diarypro.dao.WorkStudyEventDao;
