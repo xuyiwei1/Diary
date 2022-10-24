@@ -89,17 +89,17 @@
         android:text="cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView6"
-        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintHorizontal_bias="0.046"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/walkSaveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="65dp"
-        android:layout_marginBottom="53dp"
-        android:text="Save"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="52dp"
         android:onClick="clickWalkSave"
+        android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -165,8 +165,8 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="544dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="596dp"
         android:onClick="showDatePickerWalk"
         android:text="Time"
         app:layout_constraintStart_toStartOf="parent"
