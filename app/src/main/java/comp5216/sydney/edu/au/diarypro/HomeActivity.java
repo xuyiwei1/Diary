@@ -92,17 +92,17 @@ public class HomeActivity extends AppCompatActivity {
         diaryItems.clear();
         workStudyEventItems = workStudyEventDao.getAll();
         for (WorkStudyEventItem workStudyEventItem : workStudyEventItems) {
-            diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
+            diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(), workStudyEventItem.getImageInHomePage()));
         }
 
         runWalkItems = runWalkDao.getAll();
         for (RunWalkItem runWalkItem : runWalkItems) {
-            diaryItems.add(new DiaryItem(runWalkItem.getId(), runWalkItem.getType(), runWalkItem.getDateDiary(),runWalkItem.getImageInHomePage()));
+            diaryItems.add(new DiaryItem(runWalkItem.getId(), runWalkItem.getType(), runWalkItem.getDateDiary(), runWalkItem.getImageInHomePage()));
         }
 
         foodItems = foodDao.getAll();
         for (FoodItem foodItem : foodItems) {
-            diaryItems.add(new DiaryItem(foodItem.getId(), foodItem.getType(), foodItem.getDateDiary(),foodItem.getImageInHomePage()));
+            diaryItems.add(new DiaryItem(foodItem.getId(), foodItem.getType(), foodItem.getDateDiary(), foodItem.getImageInHomePage()));
         }
 
         //create the listview adapter
@@ -157,25 +157,42 @@ public class HomeActivity extends AppCompatActivity {
             dateDiary = DateConvertUtil.convertFromInt(month, day);
             // when user choose a date in home page, filter the diary item based on the date
             List<WorkStudyEventItem> itemByDate = workStudyEventDao.getItemByDate(dateDiary);
+            List<RunWalkItem> runWalkDaoItemByDate = runWalkDao.getItemByDate(dateDiary);
+            List<FoodItem> foodDaoItemByDate = foodDao.getItemByDate(dateDiary);
             //clear the item and fill the list view again
             diaryItems.clear();
             for (WorkStudyEventItem workStudyEventItem : itemByDate) {
-                diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
+                diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(), workStudyEventItem.getImageInHomePage()));
+            }
+            for (RunWalkItem runWalkItem : runWalkDaoItemByDate) {
+                diaryItems.add(new DiaryItem(runWalkItem.getId(), runWalkItem.getType(), runWalkItem.getDateDiary(), runWalkItem.getImageInHomePage()));
+            }
+            for (FoodItem foodItem : foodDaoItemByDate) {
+                diaryItems.add(new DiaryItem(foodItem.getId(), foodItem.getType(), foodItem.getDateDiary(), foodItem.getImageInHomePage()));
             }
             diaryItemListViewAdapter.notifyDataSetChanged();
         }
 
         /**
          * when user click the cancel button, show all diary item
+         *
          * @param dialog
          */
         @Override
         public void onCancel(@NonNull DialogInterface dialog) {
             super.onCancel(dialog);
             List<WorkStudyEventItem> all = workStudyEventDao.getAll();
+            List<FoodItem> foodAll = foodDao.getAll();
+            List<RunWalkItem> runWalkAll = runWalkDao.getAll();
             diaryItems.clear();
             for (WorkStudyEventItem workStudyEventItem : all) {
-                diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(),workStudyEventItem.getImageInHomePage()));
+                diaryItems.add(new DiaryItem(workStudyEventItem.getId(), workStudyEventItem.getType(), workStudyEventItem.getDateDiary(), workStudyEventItem.getImageInHomePage()));
+            }
+            for (RunWalkItem runWalkItem : runWalkAll) {
+                diaryItems.add(new DiaryItem(runWalkItem.getId(), runWalkItem.getType(), runWalkItem.getDateDiary(), runWalkItem.getImageInHomePage()));
+            }
+            for (FoodItem foodItem : foodAll) {
+                diaryItems.add(new DiaryItem(foodItem.getId(), foodItem.getType(), foodItem.getDateDiary(), foodItem.getImageInHomePage()));
             }
             diaryItemListViewAdapter.notifyDataSetChanged();
         }
@@ -210,13 +227,11 @@ public class HomeActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //remove the data from local database
                                 DiaryItem diaryItem = (DiaryItem) diaryItemListViewAdapter.getItem(position);
-                                if(diaryItem.getName().equals("work")||diaryItem.getName().equals("study")||diaryItem.getName().equals("event")) {
+                                if (diaryItem.getName().equals("work") || diaryItem.getName().equals("study") || diaryItem.getName().equals("event")) {
                                     workStudyEventDao.deleteById(diaryItems.get(position).getId());
-                                }
-                                else if(diaryItem.getName().equals("run")||diaryItem.getName().equals("walk")){
+                                } else if (diaryItem.getName().equals("run") || diaryItem.getName().equals("walk")) {
                                     runWalkDao.deleteById(diaryItems.get(position).getId());
-                                }
-                                else if(diaryItem.getName().equals("food")){
+                                } else if (diaryItem.getName().equals("food")) {
                                     foodDao.deleteById(diaryItems.get(position).getId());
                                 }
                                 //when click the delete button delete the item in the listview
@@ -242,7 +257,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DiaryItem diaryItem = (DiaryItem) diaryItemListViewAdapter.getItem(position);
                 //query the work study or event item based on diaryItem's id
-                if(diaryItem.getName().equals("work")||diaryItem.getName().equals("study")||diaryItem.getName().equals("event")) {
+                if (diaryItem.getName().equals("work") || diaryItem.getName().equals("study") || diaryItem.getName().equals("event")) {
                     WorkStudyEventItem workStudyEventItem = workStudyEventDao.getItemById(diaryItem.getId());
                     Log.d(TAG, "onItemClick: position" + position + " getItem: " + workStudyEventItem);
                     //TODO check the type of the diary item switch to the work study or event layout
@@ -275,8 +290,7 @@ public class HomeActivity extends AppCompatActivity {
                         mLauncher.launch(intent);
                         diaryItemListViewAdapter.notifyDataSetChanged();
                     }
-                }
-                else if(diaryItem.getName().equals("run")||diaryItem.getName().equals("walk")){
+                } else if (diaryItem.getName().equals("run") || diaryItem.getName().equals("walk")) {
                     RunWalkItem runWalkItem = runWalkDao.getItemById(diaryItem.getId());
                     Log.d(TAG, "onItemClick: position" + position + " getItem: " + runWalkItem.getId());
                     Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
@@ -287,9 +301,9 @@ public class HomeActivity extends AppCompatActivity {
                         intent = new Intent(HomeActivity.this, WalkEditActivity.class);
                     }
                     if (intent != null) {
-                        intent.putExtra("runTime", ""+runWalkItem.getRunTime());
-                        intent.putExtra("runDistance", ""+runWalkItem.getRunDistance());
-                        intent.putExtra("runCalories", ""+runWalkItem.getRunCalories());
+                        intent.putExtra("runTime", "" + runWalkItem.getRunTime());
+                        intent.putExtra("runDistance", "" + runWalkItem.getRunDistance());
+                        intent.putExtra("runCalories", "" + runWalkItem.getRunCalories());
                         intent.putExtra("id", runWalkItem.getId());
                         intent.putExtra("fromHomePage", 666);
                         intent.putExtra("dateDiary", dateDiary);
@@ -297,8 +311,7 @@ public class HomeActivity extends AppCompatActivity {
                         mLauncher.launch(intent);
                         diaryItemListViewAdapter.notifyDataSetChanged();
                     }
-                }
-                else if(diaryItem.getName().equals("food")){
+                } else if (diaryItem.getName().equals("food")) {
                     FoodItem foodItem = foodDao.getItemById(diaryItem.getId());
                     Log.d(TAG, "onItemClick: position" + position + " getItem: " + foodItem.getId());
                     Intent intent = new Intent(HomeActivity.this, WorkEditActivity.class);
@@ -306,13 +319,13 @@ public class HomeActivity extends AppCompatActivity {
 
                     intent = new Intent(HomeActivity.this, FoodEditActivity.class);
                     if (intent != null) {
-                        intent.putExtra("breakfastName", ""+foodItem.getBreakfastName());
-                        intent.putExtra("lunchName", ""+foodItem.getLunchName());
-                        intent.putExtra("dinnerName", ""+foodItem.getDinnerName());
-                        intent.putExtra("breakfastCal", ""+foodItem.getBreakfastCal());
-                        intent.putExtra("lunchCal", ""+foodItem.getLunchCal());
-                        intent.putExtra("dinnerCal", ""+foodItem.getDinnerCal());
-                        intent.putExtra("totalCal", ""+foodItem.getTotalCal());
+                        intent.putExtra("breakfastName", "" + foodItem.getBreakfastName());
+                        intent.putExtra("lunchName", "" + foodItem.getLunchName());
+                        intent.putExtra("dinnerName", "" + foodItem.getDinnerName());
+                        intent.putExtra("breakfastCal", "" + foodItem.getBreakfastCal());
+                        intent.putExtra("lunchCal", "" + foodItem.getLunchCal());
+                        intent.putExtra("dinnerCal", "" + foodItem.getDinnerCal());
+                        intent.putExtra("totalCal", "" + foodItem.getTotalCal());
                         intent.putExtra("id", foodItem.getId());
                         intent.putExtra("fromHomePage", 666);
                         intent.putExtra("dateDiary", dateDiary);
@@ -334,6 +347,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * upload content of diary item to the cloud
+     *
      * @param view
      */
     public void uploadToCloud(View view) {
@@ -341,19 +355,21 @@ public class HomeActivity extends AppCompatActivity {
 
         // Create a storage reference from our app
         List<WorkStudyEventItem> all = workStudyEventDao.getAll();
+        List<RunWalkItem> walkRunAll = runWalkDao.getAll();
+        List<FoodItem> foodAll = foodDao.getAll();
         for (WorkStudyEventItem workStudyEventItem : all) {
             StorageReference storageRef = storage.getReference().child(workStudyEventItem.getType());
             //upload content of diary
-            storageRef.child(workStudyEventItem.getType()+ UUID.randomUUID().toString().substring(0,5) +".txt").putBytes(workStudyEventItem.getContent().getBytes());
+            storageRef.child(workStudyEventItem.getType() + UUID.randomUUID().toString().substring(0, 5) + ".txt").putBytes(workStudyEventItem.getContent().getBytes());
             //upload image of diary
             String imagePath = workStudyEventItem.getImagePath();
             File file = new File(imagePath);
             //if user do not attach photo in their dairy do not upload photo
             Uri uri = null;
-            if(file == null) {
+            if (file == null) {
                 continue;
-            }else {
-                 uri = Uri.fromFile(file);
+            } else {
+                uri = Uri.fromFile(file);
             }
             UploadTask uploadTask = storageRef.child(workStudyEventItem.getType()).putFile(uri);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -367,6 +383,40 @@ public class HomeActivity extends AppCompatActivity {
                     Log.d(TAG, "onFailure: upload a photo");
                 }
             });
+        }
+        for (RunWalkItem runWalkItem : walkRunAll) {
+            StorageReference storageRef = storage.getReference().child(runWalkItem.getType());
+            //upload content of diary
+            String content = runWalkItem.getType() + " distance: " + runWalkItem.getRunDistance() + "\n" + runWalkItem.getType() + " time: " + runWalkItem.getRunTime() + "\n" + runWalkItem.getType() + " calories: " + runWalkItem.getRunCalories();
+            storageRef.child(runWalkItem.getType() + UUID.randomUUID().toString().substring(0, 5) + ".txt").putBytes(content.getBytes());
+            /*//upload image of diary
+            String imagePath = runWalkItem.getImagePath();
+            File file = new File(imagePath);
+            //if user do not attach photo in their dairy do not upload photo
+            Uri uri = null;
+            if(file == null) {
+                continue;
+            }else {
+                uri = Uri.fromFile(file);
+            }
+            UploadTask uploadTask = storageRef.child(runWalkItem.getType()).putFile(uri);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(TAG, "onSuccess: upload a photo");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "onFailure: upload a photo");
+                }
+            });*/
+        }
+        for (FoodItem foodItem : foodAll) {
+            StorageReference storageRef = storage.getReference().child(foodItem.getType());
+            //upload content of diary
+            String content = "breakfast Name: " + foodItem.getBreakfastName() + "\n" + "breakfast cal: " + foodItem.getBreakfastCal() + "\n" + "lunch Name: " + foodItem.getLunchName() + "\n" + "lunch cal: " + foodItem.getLunchCal() + "\n" + "dinner Name: " + foodItem.getDinnerName() + "\n" + "dinner cal: " + foodItem.getDinnerCal() + "\n" + "total cal: " + foodItem.getTotalCal();
+            storageRef.child(foodItem.getType() + UUID.randomUUID().toString().substring(0, 5) + ".txt").putBytes(content.getBytes());
         }
         Toast.makeText(this, "user driven synchronization success", Toast.LENGTH_SHORT).show();
     }

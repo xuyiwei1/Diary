@@ -23,7 +23,7 @@ import comp5216.sydney.edu.au.diarypro.entity.UserItem;
 // declare the entities to the database
 
 
-@Database(entities = {DiaryItem.class, WorkStudyEventItem.class, RunWalkItem.class, UserItem.class, FoodItem.class}, version = 6, exportSchema = false)
+@Database(entities = {DiaryItem.class, WorkStudyEventItem.class, RunWalkItem.class, UserItem.class, FoodItem.class}, version = 7, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "diaryProDB";
